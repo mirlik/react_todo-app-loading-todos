@@ -13,6 +13,7 @@ export const App: React.FC = () => {
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [status, setStatus] = React.useState<Status>(Status.All);
   const isErrorNotificationHidden = errorMessage === null;
+  const hasTodos = todos.length > 0;
   const visibleTodos = React.useMemo(() => {
     return todos.filter(todo => {
       if (status === Status.Active) {
@@ -82,23 +83,25 @@ export const App: React.FC = () => {
         <TodoList todos={visibleTodos} />
 
         {/* Hide the footer if there are no todos */}
-        <footer className="todoapp__footer" data-cy="Footer">
-          <span className="todo-count" data-cy="TodosCounter">
-            {todos.filter(t => !t.completed).length} items left
-          </span>
+        {hasTodos && (
+          <footer className="todoapp__footer" data-cy="Footer">
+            <span className="todo-count" data-cy="TodosCounter">
+              {todos.filter(t => !t.completed).length} items left
+            </span>
 
-          {/* Active link should have the 'selected' class */}
-          <TodoFilter status={status} onStatusChange={setStatus} />
+            {/* Active link should have the 'selected' class */}
+            <TodoFilter status={status} onStatusChange={setStatus} />
 
-          {/* this button should be disabled if there are no completed todos */}
-          <button
-            type="button"
-            className="todoapp__clear-completed"
-            data-cy="ClearCompletedButton"
-          >
-            Clear completed
-          </button>
-        </footer>
+            {/* this button should be disabled if there are no completed todos */}
+            <button
+              type="button"
+              className="todoapp__clear-completed"
+              data-cy="ClearCompletedButton"
+            >
+              Clear completed
+            </button>
+          </footer>
+        )}
       </div>
 
       {/* DON'T use conditional rendering to hide the notification */}
