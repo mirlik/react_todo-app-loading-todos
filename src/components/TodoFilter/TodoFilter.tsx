@@ -12,7 +12,11 @@ export const TodoFilter: React.FC<Props> = ({ status, onStatusChange }) => {
       {Object.values(Status).map(filterStatus => (
         <a
           key={filterStatus}
-          href="#/"
+          href={
+            filterStatus === Status.All
+              ? '#/'
+              : `#/${filterStatus.toLowerCase()}`
+          }
           className={`filter__link ${status === filterStatus ? 'selected' : ''}`}
           data-cy={`FilterLink` + filterStatus}
           onClick={() => onStatusChange(filterStatus)}
