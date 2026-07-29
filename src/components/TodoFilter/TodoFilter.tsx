@@ -14,7 +14,7 @@ export const TodoFilter: React.FC<Props> = ({ status, onStatusChange }) => {
           key={filterStatus}
           href="#/"
           className={`filter__link ${status === filterStatus ? 'selected' : ''}`}
-          data-cy={`FilterLink$filterStatus`}
+          data-cy={`FilterLink` + filterStatus}
           onClick={() => onStatusChange(filterStatus)}
         >
           {filterStatus}
