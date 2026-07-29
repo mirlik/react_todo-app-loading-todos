@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { UserWarning } from './UserWarning';
 import { USER_ID, getTodos } from './api/todos';
 import { Todo } from './types/Todo';
@@ -9,12 +9,12 @@ import { TodoFilter } from './components/TodoFilter';
 import { Status } from './types/Status';
 
 export const App: React.FC = () => {
-  const [todos, setTodos] = React.useState<Todo[]>([]);
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  const [status, setStatus] = React.useState<Status>(Status.All);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [status, setStatus] = useState<Status>(Status.All);
   const isErrorNotificationHidden = errorMessage === null;
   const hasTodos = todos.length > 0;
-  const visibleTodos = React.useMemo(() => {
+  const visibleTodos = useMemo(() => {
     return todos.filter(todo => {
       if (status === Status.Active) {
         return !todo.completed;
@@ -28,7 +28,7 @@ export const App: React.FC = () => {
     });
   }, [todos, status]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getTodos()
       .then(todosList => {
         setTodos(todosList);
@@ -38,7 +38,7 @@ export const App: React.FC = () => {
       });
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!errorMessage) {
       return;
     }
